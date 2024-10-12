@@ -4,15 +4,15 @@ import model.Bar;
 import model.extra.Vector2;
 
 public class BarController {
-    private Bar bar;
+    private SceneController sceneController;
 
-    public BarController(Bar bar) {
-        this.bar = bar;
+    public BarController(SceneController sceneController) {
+        this.sceneController = sceneController;
     }
 
     public void setBarPos(Float x) {
+        Bar bar = sceneController.getLevel().getBar();
         Vector2 oldPosition = bar.getTransform().getPosition();
         oldPosition.setX(x);
     }
-    
 }

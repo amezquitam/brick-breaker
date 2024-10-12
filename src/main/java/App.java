@@ -1,8 +1,12 @@
-import javax.swing.JFrame;
+
+import config.GameConfig;
+import controller.GameController;
+import view.GameView;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        JFrame window = new JFrame();
-        window.setVisible(true);
+        GameController gameController = new GameController(GameConfig.get());
+        GameView gameView = new GameView(gameController);
+        gameView.run();
     }
 }
