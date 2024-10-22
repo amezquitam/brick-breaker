@@ -1,0 +1,12 @@
+{
+    "java.project.sourcePaths": ["src/main/java", "src/test/java", "src/main/resources"],
+    "java.project.outputPath": "bin",
+    "java.project.resourceFilters": [
+        "node_modules",
+        "\\.git",
+    ],
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar"
+    ],
+    "java.dependency.packagePresentation": "hierarchical",
+}
