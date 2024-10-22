@@ -1,12 +1,11 @@
-
 import config.GameConfig;
 import controller.GameController;
-import view.GameView;
+import view.GameWindow;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        GameController gameController = new GameController(GameConfig.get());
-        GameView gameView = new GameView(gameController);
-        gameView.run();
+        GameController gameController = new GameController(GameConfig.newConfig());
+        GameWindow gameWindow = new GameWindow(gameController);
+        gameWindow.start();
     }
 }

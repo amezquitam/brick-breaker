@@ -3,14 +3,26 @@ package controller;
 import config.GameConfig;
 
 public class GameController {
-    private final SceneController sceneController;
-    private final BarController barController;
-    private final BackgroundController backgroundController;
-    
+    private SceneController sceneController;
+    private BarController barController;
+    private BackgroundController backgroundController;
+    private BallController ballController;
+    private BrickController brickController;
+
     public GameController(GameConfig gameConfig) {
         sceneController = new SceneController(gameConfig);
         backgroundController = new BackgroundController(sceneController);
-        barController = new BarController(sceneController);
+        ballController = new BallController(sceneController);
+        barController = new BarController(sceneController, ballController);
+        brickController = new BrickController(sceneController, ballController);
+    }
+
+    public void reset() {
+        sceneController = new SceneController(GameConfig.newConfig());
+        backgroundController = new BackgroundController(sceneController);
+        ballController = new BallController(sceneController);
+        barController = new BarController(sceneController, ballController);
+        brickController = new BrickController(sceneController, ballController);
     }
 
     public SceneController getSceneController() {
@@ -24,5 +36,12 @@ public class GameController {
     public BackgroundController getBackgroundController() {
         return backgroundController;
     }
-    
+
+    public BallController getBallController() {
+        return ballController;
+    }
+
+    public BrickController getBrickController() {
+        return brickController;
+    }
 }

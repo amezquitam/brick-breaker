@@ -2,18 +2,29 @@ package model;
 
 import model.extra.Image;
 
-public class Background {
-    private Image image;
+public record Background(Image image) {
 
-    public Background(Image image) {
-        this.image = image;
+    public static BackgroundBuilder builder() {
+        return new BackgroundBuilder();
     }
 
-    public Image getImage() {
-        return image;
-    }
+    public static final class BackgroundBuilder {
+        private Image image;
 
-    public void setImage(Image image) {
-        this.image = image;
+        private BackgroundBuilder() {
+        }
+
+        public static BackgroundBuilder aBackground() {
+            return new BackgroundBuilder();
+        }
+
+        public BackgroundBuilder image(Image image) {
+            this.image = image;
+            return this;
+        }
+
+        public Background build() {
+            return new Background(image);
+        }
     }
 }

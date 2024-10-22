@@ -10,6 +10,6 @@ public class BackgroundController {
     }
 
     public Image getImage() {
-        return scene.getLevel().getBackground().getImage();
+        return scene.getLevel().background().image();
     }
 }

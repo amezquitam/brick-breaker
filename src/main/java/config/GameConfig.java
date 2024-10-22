@@ -1,49 +1,87 @@
 package config;
-import java.util.List;
 
-import model.Background;
-import model.Ball;
-import model.Bar;
-import model.Brick;
-import model.Level;
+import model.*;
 import model.extra.Image;
 import model.extra.Transform;
 import model.extra.Vector2;
 
-public class GameConfig {
-    private final List<Level> levels;
-    private final Integer lives;
+import java.util.List;
 
-    private static final GameConfig INSTANCE;
+public record GameConfig(List<Level> levels, Integer lives, Float gravity) {
 
-    static {
-        
-        Level firstLevel = new Level(
-            List.of(new Brick(new Transform(new Vector2(10, 10), new Vector2(1, 1)), null)), 
-            new Bar(new Transform(new Vector2(0, 0), new Vector2(0, 0)), null), 
-            new Ball(new Image("balls/epic.png"), new Transform(new Vector2(0, 0), new Vector2(0, 0))),
-            new Background(new Image("backgrounds/redbg.jpg"))
-        );
+    private static GameConfig INSTANCE;
+    public static Integer barPos = 100;
+
+    public static GameConfig newConfig() {
+        Level firstLevel = Level.builder()
+                .bricks(List.of(
+                        Brick.builder()
+                                .state(5)
+                                .image(new Image("bricks/neon.png"))
+                                .transform(
+                                        Transform.builder()
+                                                .position(new Vector2(20, 20))
+                                                .scale(new Vector2(70, 30))
+                                                .build())
+                                .sound(null)
+                                .build(),
+                        Brick.builder()
+                                .image(new Image("bricks/neon.png"))
+                                .transform(Transform.builder()
+                                        .position(new Vector2(150, 20))
+                                        .scale(new Vector2(70, 30))
+                                        .build())
+                                .sound(null)
+                                .build()))
+                .bar(Bar.builder()
+                        .transform(Transform.builder().position(new Vector2(0, 0)).scale(new Vector2(200, 20)).build())
+                        .sound(null)
+                        .image(new Image("bars/basic.png"))
+                        .build())
+                .ball(Ball.builder()
+                        .image(new Image("balls/metal.png"))
+                        .transform(Transform.builder().position(new Vector2(0, 0)).scale(new Vector2(20, 20)).build())
+                        .velocity(350.F)
+                        .direction(new Vector2(2, -3).normalize())
+                        .build())
+                .background(Background.builder().image(new Image("backgrounds/neon.jpg")).build())
+                .build();
 
         List<Level> levels = List.of(firstLevel);
 
-        INSTANCE = new GameConfig(levels, 3);
+        INSTANCE = new GameConfigBuilder().lives(3).levels(levels).gravity(1800.0F).build();
+        return INSTANCE;
     }
 
     public static GameConfig get() {
         return INSTANCE;
     }
 
-    private GameConfig(List<Level> levels, Integer lives) {
-        this.levels = levels;
-        this.lives = lives;
-    }
+    private static final class GameConfigBuilder {
+        private List<Level> levels;
+        private Integer lives;
+        private Float gravity;
 
-    public List<Level> getLevels() {
-        return levels;
-    }
+        private GameConfigBuilder() {
+        }
 
-    public Integer getLives() {
-        return lives;
+        public GameConfigBuilder levels(List<Level> levels) {
+            this.levels = levels;
+            return this;
+        }
+
+        public GameConfigBuilder lives(Integer lives) {
+            this.lives = lives;
+            return this;
+        }
+
+        public GameConfigBuilder gravity(Float gravity) {
+            this.gravity = gravity;
+            return this;
+        }
+
+        public GameConfig build() {
+            return new GameConfig(levels, lives, gravity);
+        }
     }
 }

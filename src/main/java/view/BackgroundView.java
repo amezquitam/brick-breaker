@@ -1,26 +1,28 @@
 package view;
 
-import java.awt.Graphics2D;
-import javax.swing.JPanel;
-
 import controller.BackgroundController;
 import model.extra.Image;
+import view.events.KeyL;
+import view.events.MouseL;
+
+import java.awt.*;
 
 public class BackgroundView extends View {
     private final BackgroundController backgroundController;
-    private Image drawedImage;
 
-    public BackgroundView(BackgroundController backgroundController) {
+    public BackgroundView(MouseL mouseL, KeyL keyL, BackgroundController backgroundController) {
+        super(mouseL, keyL);
         this.backgroundController = backgroundController;
     }
 
     @Override
-    void update(JPanel panel) {
+    void update() {
+
+    }
+
+    @Override
+    void render(Graphics2D g2d) {
         Image image = backgroundController.getImage();
-        if (drawedImage != image) {
-            Graphics2D g2d = (Graphics2D) panel.getGraphics();
-            g2d.drawImage(image.getImage(), 0, 0, panel.getWidth(), panel.getWidth(), null);
-            drawedImage = image;
-        }
+        g2d.drawImage(image.getImage(), 0, 0, GamePanel.width, GamePanel.height, null);
     }
 }
